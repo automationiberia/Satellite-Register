@@ -3,4 +3,3 @@
 localhost ansible_conection=local
 
 [rhn]
-test       ansible_ssh_host=192.168.122.113 ansible_connection=ssh ansible_ssh_user=sperezto

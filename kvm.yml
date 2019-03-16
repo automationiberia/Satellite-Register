@@ -37,19 +37,33 @@
       timezone: "Europe/Madrid"
       ## VM definition
       guests:
-        test:
+        test1:
           fqdn: test.lab.example.com
           mem: 2048
           cpus: 1
           os_type: rhel7
           file_type: qcow2
-          network: "bridge=virbr0"
+          pnetwork: "virbr0"
           model: virtio
           graphics: spice
-          address: 192.168.122.113
+          address: 192.168.122.13
           network: 192.168.122.0
           netmask: 255.255.255.0
           broadcast: 192.168.122.255
           gateway: 192.168.122.1
-       
+        test1:
+          fqdn: test1.lab.example.com
+          mem: 2048
+          cpus: 1
+          os_type: rhel7
+          file_type: qcow2
+          network: "virbr0"
+          model: virtio
+          graphics: spice
+          address: 192.168.122.113
+          network: 192.168.122.0
+          pnetmask: 255.255.255.0
+          broadcast: 192.168.122.255
+          gateway: 192.168.122.1
+
 - import_playbook: rhn_register.yml

@@ -47,7 +47,7 @@
     state: present
   with_dict: "{{ guests }}"
 
-- name: "Populate /etc/hosts file with its own data"
+- name: "Populate inventory file with NEW VMs"
   lineinfile:
     dest: '{{ inventory_file }}'
     insertafter: "^[rhn]"
@@ -160,13 +160,15 @@
             --memory {{ item.value.mem }} --vcpus {{ item.value.cpus }}
             --disk {{ vm_location }}/{{ item.key }}/{{ item.key }}.{{ item.value.file_type }},bus=virtio,format=qcow2
             --disk {{ vm_location }}/{{ item.key }}/{{ item.key }}.qcow2-cidata.iso,device=cdrom
-            --network bridge=virbr0,model=virtio
+            --network bridge={{ item.value.pnetwork }},model=virtio
             --graphics spice
             --noautoconsole --os-variant {{ item.value.os_type }}
   args:
     chdir: '{{ vm_location }}/{{ item.key }}/'
   when: item.key not in vms.list_vms
   with_dict: "{{ guests }}"
+  become: true
+  become_user: root
 
 - name: start vm
   virt:
