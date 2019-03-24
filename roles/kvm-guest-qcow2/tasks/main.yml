@@ -180,7 +180,7 @@
   wait_for:
     host: "{{ item.value.address }}"
     state: started
-    delay: 10
+    delay: 120
     connect_timeout: 5
     timeout: 300
     port: 22

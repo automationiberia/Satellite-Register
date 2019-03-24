@@ -23,7 +23,7 @@
       env_LIBGUESTFS_BACKEND: "direct"
       preallocation: metadata
       ssh_keys:
-        - sshkey: ssh-ed25519 AAAAprilNzaC1li15I1NTE5AAAAIBlv6QfLyGzTf2IkJaj3zeFuWjmk9Ll3oT/n0Zdgd/6Z silvinux@homelab.com
+        - sshkey: ssh-rsa AAAAprilNzaC1li15I1NTE5AAAAIBlv6QfLyGzTf2IkJaj3zeFuWjmk9Ll3oT/n0Zdgd/6Z silvinux@homelab.com
       ## Users
       users_dic:
         - name: silvinux
@@ -62,7 +62,7 @@
           graphics: spice
           address: 192.168.122.113
           network: 192.168.122.0
-          pnetmask: 255.255.255.0
+          netmask: 255.255.255.0
           broadcast: 192.168.122.255
           gateway: 192.168.122.1
 

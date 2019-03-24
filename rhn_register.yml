@@ -3,14 +3,16 @@
   gather_facts: yes
   become: yes
   become_method: sudo
+  vars:
+    ansible_ssh_pipelining: no
   roles:
     - role: rhn-subscription
       register_rhn: true
       rhn_user: "{{ vault_rhn_user }}"
       rhn_pwd: "{{ vault_rhn_pwd }}"
       rhn_pool_name: "{{ vault_rhn_pool_id }}"
-      OCP_VERSION: 3.11
-      ANSIBLE_VERSION: 2.7
+      OCP_VERSION: 3.9
+      ANSIBLE_VERSION: 2.4
       rhel_repos:
         - rhel-7-server-rpms
         - rhel-7-server-extras-rpms
@@ -18,8 +20,8 @@
         - rhel-server-rhscl-7-rpms
         - rhel-7-server-optional-rpms
         - rhel-7-server-supplementary-rpms
-        - "rhel-7-server-ose-{{ OCP_VERSION }}-rpms"
-        - "rhel-7-server-ansible-{{ ANSIBLE_VERSION }}-rpms"
+        #- "rhel-7-server-ose-{{ OCP_VERSION }}-rpms"
+        #- "rhel-7-server-ansible-{{ ANSIBLE_VERSION }}-rpms"
       
       packages_uninstall:
         - cloud-init
@@ -29,8 +31,18 @@
         - vim-enhanced
         - nmap
         - net-tools
-        - ansible
-        - git
+        #- ansible
+        #- git
         - bind-utils
+        - wget 
+        - yum-utils 
+        - iptables-services 
+        - bridge-utils 
+        - bash-completion 
+        - kexec-tools 
+        - sos 
+        - psacct
+        - lvm2
+        #- docker
 
 - import_playbook: resolv_ipa.yml
