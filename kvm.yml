@@ -57,7 +57,7 @@
           cpus: 1
           os_type: rhel7
           file_type: qcow2
-          network: "virbr0"
+          pnetwork: "virbr0"
           model: virtio
           graphics: spice
           address: 192.168.122.113
