@@ -7,7 +7,7 @@ preserve_hostname: {{ preserve_hostname }}
  
 # Setup Users 
 users:
-{% for user in users_dic %}
+{% for user in users %}
   - name: {{ user.name }}
     groups: {{ user.groups }}
     shell: {{ user.shell }}

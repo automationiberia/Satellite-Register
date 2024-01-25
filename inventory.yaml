@@ -1,0 +1,13 @@
+---
+local:
+    hosts:
+        localhost:
+            ansible_connection: local
+rhn:
+    hosts:
+        aapstdalone:
+            ansible_connection: ssh
+            ansible_ssh_host: 192.168.122.10
+            ansible_ssh_user: pgoku
+
+...

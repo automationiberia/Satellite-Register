@@ -45,4 +45,4 @@
         - lvm2
         #- docker
 
-- import_playbook: resolv_ipa.yml
+- ansible.builtin.import_playbook: resolv_ipa.yml

@@ -4,6 +4,8 @@
   gather_facts: yes
   become: yes
   become_method: sudo
+  vars:
+    ansible_ssh_pipelining: no
   roles:
     - role: "etc_resolv"
       resolv_nameservers:
@@ -17,12 +19,12 @@
         - "rotate"
   post_tasks:
     - name: "Make sure packages are installed"
-      package:
+      ansible.builtin.package:
         name: "{{ item }}"
         state: present
       with_items:
         - ipa-client
 
     - name: "Configure as ipa-client"
-      command: >
+      ansible.builtin.command: >
               ipa-client-install -p admin --password 'redhat1234' --domain lab.example.com --server idm.lab.example.com --unattended --force-ntpd --enable-dns-updates

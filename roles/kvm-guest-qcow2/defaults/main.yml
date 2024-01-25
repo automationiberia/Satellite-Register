@@ -12,7 +12,7 @@ preallocation: metadata
 
 preserve_hostname: False
 
-users_dic:
+users:
   - name: student
     groups: users,wheel
     shell: /bin/bash

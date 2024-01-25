@@ -21,7 +21,7 @@ Role Variables
       preallocation: metadata
       ssh_keys:
         - sshkey: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICoT3oooouuuuVOFktOj+rGFhqlxdr0bNH+ln7cDLJtH silvio@silvinux.example.com
-      users_dic:
+      users:
         - name: student
           groups: users,wheel
           shell: /bin/bash
@@ -75,7 +75,7 @@ Example Playbook
          preallocation: metadata
          ssh_keys:
            - sshkey: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICoT3oooouuuuVOFktOj+rGFhqlxdr0bNH+ln7cDLJtH silvio@silvinux.example.com
-         users_dic:
+         users:
            - name: student
              groups: users,wheel
              shell: /bin/bash

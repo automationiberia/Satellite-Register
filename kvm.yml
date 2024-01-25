@@ -11,59 +11,32 @@
       ### Variables
       ## Paths
       vm_location: "/var/lib/libvirt/images"
-      image: "/home/silvinux/kvm/rhel-server-7.6-x86_64-kvm.qcow2"
+      image: "{{ os_image }}"
       path_output: "/var/log/cloud-init.log"
+      inventory_file: "./inventory.yaml"
       ## Image 
-      new_image_size: "10G"
+      new_image_size: "{{ disk_size }}"
       ## Owner
-      dir_owner: silvinux 
-      dir_group: silvinux 
-      useransible: silvinux
+      dir_owner: pgoku 
+      dir_group: pgoku 
+      useransible: pgoku
       ## Storage
       env_LIBGUESTFS_BACKEND: "direct"
       preallocation: metadata
       ssh_keys:
-        - sshkey: ssh-rsa AAAAprilNzaC1li15I1NTE5AAAAIBlv6QfLyGzTf2IkJaj3zeFuWjmk9Ll3oT/n0Zdgd/6Z silvinux@homelab.com
+        - sshkey: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAbvH2rjdIDDgABBt+3FYsckeWT46jnv+Fq2LG3HQEDf pgoku@pgoku.bcnconsulting.com
       ## Users
-      users_dic:
-        - name: silvinux
+      users:
+        - name: pgoku
           groups: users,wheel
           shell: /bin/bash
           sudo: ALL=(ALL) NOPASSWD:ALL
       chg_pwd_users:
         - name: root
-          password: toor
+          password: redhat00
       ## Timezone
       timezone: "Europe/Madrid"
       ## VM definition
-      guests:
-        test1:
-          fqdn: test.lab.example.com
-          mem: 2048
-          cpus: 1
-          os_type: rhel7
-          file_type: qcow2
-          pnetwork: "virbr0"
-          model: virtio
-          graphics: spice
-          address: 192.168.122.13
-          network: 192.168.122.0
-          netmask: 255.255.255.0
-          broadcast: 192.168.122.255
-          gateway: 192.168.122.1
-        test1:
-          fqdn: test1.lab.example.com
-          mem: 2048
-          cpus: 1
-          os_type: rhel7
-          file_type: qcow2
-          pnetwork: "virbr0"
-          model: virtio
-          graphics: spice
-          address: 192.168.122.113
-          network: 192.168.122.0
-          netmask: 255.255.255.0
-          broadcast: 192.168.122.255
-          gateway: 192.168.122.1
+      guests: "{{ guest_list }}"
 
-- import_playbook: rhn_register.yml
+- ansible.builtin.import_playbook: rhn_register.yml

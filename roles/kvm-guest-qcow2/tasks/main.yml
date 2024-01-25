@@ -1,6 +1,6 @@
 ---
 - name: "Create VM directory"
-  file:
+  ansible.builtin.file:
     path: '{{ vm_location }}/{{ item.key }}'
     state: "directory"
     owner: '{{ dir_owner }}'
@@ -9,7 +9,7 @@
   with_dict: "{{ guests }}"
 
 - name: "Generate template  for meta-data"
-  copy:
+  ansible.builtin.copy:
     dest: '{{ vm_location }}//{{ item.key }}/meta-data'
     mode: 0777
     content: |
@@ -25,14 +25,14 @@
   with_dict: "{{ guests }}"
 
 - name: "Generate template  for user-data"
-  template:
+  ansible.builtin.template:
     src: "user-data.j2"
     dest: '{{ vm_location }}//{{ item.key }}/user-data'
     mode: 0777
   with_dict: "{{ guests }}"
 
 - name: "Insert hostname to user-data before preserve_hostname"
-  lineinfile: 
+  ansible.builtin.lineinfile: 
     dest: '{{ vm_location }}//{{ item.key }}/user-data'
     insertafter: "^preserve_hostname"
     line: "hostname: '{{ item.key }}'"
@@ -40,23 +40,77 @@
   with_dict: "{{ guests }}"
 
 - name: "Populate /etc/hosts file with its own data"
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: '{{ vm_location }}//{{ item.key }}/user-data'
     insertafter: "^bootcmd:"
     line: "  - echo {{ item.value.address }}    {{ item.value.fqdn }}   {{ item.key }} >> /etc/hosts"
     state: present
   with_dict: "{{ guests }}"
 
-- name: "Populate inventory file with NEW VMs"
-  lineinfile:
-    dest: '{{ inventory_file }}'
-    insertafter: "^[rhn]"
-    line: "{{ item.key }}       ansible_ssh_host={{ item.value.address }} ansible_connection=ssh ansible_ssh_user={{ useransible }}"
-    state: present
-  with_dict: "{{ guests }}"
+- name: "Read the current inventory file"
+  ansible.builtin.set_fact:
+    current_inventory: "{{ lookup('file', inventory_file) | from_yaml }}"
+- name: "Populate current inventory with NEW VMs"
+  ansible.builtin.set_fact:
+    new_current_inventory: |
+      {{ current_inventory | combine({'rhn': {
+                                        'hosts': {
+                                          current_guest.key: {
+                                            'ansible_ssh_host': current_guest.value.address,
+                                            'ansible_connection': 'ssh',
+                                            'ansible_ssh_user': useransible
+                                          }
+                                        }
+                                      }
+                                    })
+      }}
+  loop: "{{ guests | dict2items }}"
+  loop_control:
+    loop_var: current_guest
 
+# - name: "Populate current inventory with NEW VMs"
+#   ansible.builtin.set_fact:
+#     new_current_inventory: "{{ current_inventory | combine({'rhn': {
+#                                                               'hosts': ( current_inventory.rhn.hosts | combine({
+#                                                                 current_guest.key: {
+#                                                                   'ansible_ssh_host': current_guest.value.address,
+#                                                                   'ansible_connection': 'ssh',
+#                                                                   'ansible_ssh_user': useransible
+#                                                                 }
+#                                                               }))
+#                                                             }
+#                                                           })
+#                             }}"
+#   loop: "{{ guests | dict2items }}"
+#   loop_control:
+#     loop_var: current_guest
+
+- name: "Write down the new inventory file"
+  ansible.builtin.copy:
+    dest: "{{ inventory_file }}"
+    content: |
+      ---
+      {{ new_current_inventory | to_nice_yaml }}
+      ...
+
+# - name: "Populate inventory file with NEW VMs"
+#   ansible.builtin.blockinfile:
+#     marker_begin: "    # {mark} - {{ item.key }}"
+#     marker_end: "    # {mark} - {{ item.key }}"
+#     dest: '{{ inventory_file }}'
+#     insertbefore: "^...$"
+#     block: "{{ block_to_insert | indent(width=4, first=True) }}"
+#     state: present
+#   vars:
+#     block_to_insert: |+
+#       {{ item.key }}:
+#         ansible_ssh_host: {{ item.value.address }}
+#         ansible_connection: ssh
+#         ansible_ssh_user: {{ useransible }}
+#   with_dict: "{{ guests }}"
+# - fail: msg=fallant
 - name: Refresh inventory to ensure new instaces exist in inventory
-  meta: refresh_inventory
+  ansible.builtin.meta: refresh_inventory
 
 #- name: "Check if image copy was made "
 #  stat:
@@ -65,7 +119,7 @@
 #  register: is_image_copied
   
 - name: "Copy source image to new image VM"
-  copy: 
+  ansible.builtin.copy: 
     src: '{{ image }}' 
     dest: '{{ vm_location }}/{{ item.key }}/{{ item.key }}.qcow2' 
   with_dict: "{{ guests }}"
@@ -79,7 +133,7 @@
 #  with_dict: "{{ guests }}"
 
 - name: "Create target image (New VM)"
-  command: >
+  ansible.builtin.command: >
           qemu-img create -f qcow2 -o preallocation={{ preallocation }} '{{ vm_location }}/{{ item.key }}/{{ item.key }}'.new.image '{{ new_image_size }}'
   #when: is_new_image_created.stat.exists == false
   environment:
@@ -98,20 +152,27 @@
 #    verbosity: 2
 
 - name: "Resize new image"
-  command: >
-           virt-resize --expand /dev/sda1 '{{ vm_location }}/{{ item.key }}/{{ item.key }}.qcow2' '{{ vm_location }}/{{ item.key }}/{{ item.key }}'.new.image
-  with_dict: "{{ guests }}"
-#  when: is_new_image_resized.stdout != '{{ new_image_size }}'
-    
-#- name: "Check if new image is already renamed"
-#  stat:
-#    path: '{{ vm_location }}/{{ hostname }}/{{ hostname }}.new.image'
-#  register: is_new_image_renamed
-    
-- name: "Renamed resized image"
-  command: mv -fv '{{ vm_location }}/{{ item.key }}/{{ item.key }}'.new.image '{{ vm_location }}/{{ item.key }}/{{ item.key }}.qcow2'
-#  when: is_new_image_renamed.stat.exists == true
-  with_dict: "{{ guests }}"
+  ansible.builtin.command: >
+    qemu-img resize '{{ vm_location }}/{{ current_guest.key }}/{{ current_guest.key }}.qcow2' {{ new_image_size }}
+  loop: "{{ guests | dict2items }}"
+  loop_control:
+    loop_var: current_guest
+
+# - name: "Resize new image"
+#   ansible.builtin.command: >
+#            virt-resize --expand /dev/sda1 '{{ vm_location }}/{{ item.key }}/{{ item.key }}.qcow2' '{{ vm_location }}/{{ item.key }}/{{ item.key }}'.new.image
+#   with_dict: "{{ guests }}"
+# #  when: is_new_image_resized.stdout != '{{ new_image_size }}'
+#     
+# #- name: "Check if new image is already renamed"
+# #  stat:
+# #    path: '{{ vm_location }}/{{ hostname }}/{{ hostname }}.new.image'
+# #  register: is_new_image_renamed
+#     
+# - name: "Renamed resized image"
+#   ansible.builtin.command: mv -fv '{{ vm_location }}/{{ item.key }}/{{ item.key }}'.new.image '{{ vm_location }}/{{ item.key }}/{{ item.key }}.qcow2'
+# #  when: is_new_image_renamed.stat.exists == true
+#   with_dict: "{{ guests }}"
      
 #- name: "Check if cidata iso is created"
 #  stat:
@@ -119,7 +180,7 @@
 #  register: is_cidata_created
       
 - name: "Creating a cloud-init ISO"
-  command: >
+  ansible.builtin.command: >
            mkisofs -o '{{ vm_location }}/{{ item.key }}/{{ item.key }}.qcow2'-cidata.iso -V cidata -J -r user-data meta-data 
   args:
     chdir: '{{ vm_location }}/{{ item.key }}/'
@@ -137,31 +198,31 @@
 #    verbosity: 2
 
 - name: "Create kvm storage pool"
-  command: >
+  ansible.builtin.command: >
            virsh pool-create-as --name '{{ item.key }}' --type dir --target '{{ vm_location }}/{{ item.key }}/'
   #when: is_storage_pool_created.stdout == "0"
   ignore_errors: true
   with_dict: "{{ guests }}"
 
 - name: "Change root pwd"
-  command: >
+  ansible.builtin.command: >
            virt-customize -a '{{ vm_location }}/{{ item.key }}/{{ item.key }}.qcow2' --root-password password:toor
   ignore_errors: true
   with_dict: "{{ guests }}"
 
 - name: get list of VMs
-  virt:
+  community.libvirt.virt:
     command: "list_vms"
   register: vms
 
 - name: create vm
-  command: >
+  ansible.builtin.command: >
             virt-install --import --name {{ item.key }}
             --memory {{ item.value.mem }} --vcpus {{ item.value.cpus }}
             --disk {{ vm_location }}/{{ item.key }}/{{ item.key }}.{{ item.value.file_type }},bus=virtio,format=qcow2
             --disk {{ vm_location }}/{{ item.key }}/{{ item.key }}.qcow2-cidata.iso,device=cdrom
             --network bridge={{ item.value.pnetwork }},model=virtio
-            --graphics spice
+            --graphics vnc
             --noautoconsole --os-variant {{ item.value.os_type }}
   args:
     chdir: '{{ vm_location }}/{{ item.key }}/'
@@ -171,13 +232,13 @@
   become_user: root
 
 - name: start vm
-  virt:
+  community.libvirt.virt:
     name: "{{ item.key }}"
     state: running
   with_dict: "{{ guests }}"
 
 - name: Wait for port 22 to be ready
-  wait_for:
+  ansible.builtin.wait_for:
     host: "{{ item.value.address }}"
     state: started
     delay: 120
