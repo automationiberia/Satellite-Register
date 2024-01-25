@@ -47,6 +47,14 @@
     state: present
   with_dict: "{{ guests }}"
 
+- name: "Enable the 'System eth0' connection to auto connect at startup"
+  ansible.builtin.lineinfile:
+    dest: '{{ vm_location }}//{{ item.key }}/user-data'
+    insertafter: "^bootcmd:"
+    line: "  - nmcli con mod 'System eth0' connection.autoconnect true"
+    state: present
+  with_dict: "{{ guests }}"
+
 - name: "Read the current inventory file"
   ansible.builtin.set_fact:
     current_inventory: "{{ lookup('file', inventory_file) | from_yaml }}"
@@ -241,11 +249,23 @@
   ansible.builtin.wait_for:
     host: "{{ item.value.address }}"
     state: started
-    delay: 120
+    delay: 10
     connect_timeout: 5
     timeout: 300
     port: 22
+  retries: 24
   delegate_to: 127.0.0.1
   become: false
   ignore_errors: true
   with_dict: "{{ guests }}"
+
+- name: "Add an entry to /etc/hosts"
+  ansible.builtin.lineinfile:
+    dest: '/etc/hosts'
+    insertafter: "^# KVM VMs$"
+    line: "{{ current_guest.value.address }}  {{ current_guest.value.fqdn }} {{ current_guest.key }}"
+    state: present
+  loop: "{{ guests | dict2items }}"
+  loop_control:
+    loop_var: current_guest
+

@@ -24,7 +24,7 @@
       env_LIBGUESTFS_BACKEND: "direct"
       preallocation: metadata
       ssh_keys:
-        - sshkey: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAbvH2rjdIDDgABBt+3FYsckeWT46jnv+Fq2LG3HQEDf pgoku@pgoku.bcnconsulting.com
+        - sshkey: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA2rwE5p+z4jHTKNRLnRLjqQv9i/dBksojC/nJDhKNJc pgoku@pgoku.bcnconsulting.com
       ## Users
       users:
         - name: pgoku

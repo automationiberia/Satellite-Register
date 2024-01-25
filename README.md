@@ -37,7 +37,7 @@ ansible-vault edit vars/vault.yml
 Execute playbook
 
 ```
-ansible-playbook -i inventory test.yml -K --ask-vault-pass
+ansible-playbook kvm.yml -e@vm_vars/aapstdalone.yaml -e@vault_rhn_vars.yaml --ask-vault-pass
 ```
 
 
