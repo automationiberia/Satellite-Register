@@ -23,12 +23,12 @@
 
 - name: "Disable all repositories"
   ansible.builtin.command: subscription-manager repos --disable=\*
-  when: ansible_distribution == 'RedHat' and register_rhn and repositories_status <= "5"
+  when: ansible_distribution == 'RedHat' and register_rhn and repositories_status.stdout <= "5"
 
 - name: "Enable the needed rhel repositories"
   ansible.builtin.command: subscription-manager repos --enable={{ item }}
   with_items: "{{ rhel_repos }}"
-  when: ansible_distribution == 'RedHat' and register_rhn and repositories_status <= "5"
+  when: ansible_distribution == 'RedHat' and register_rhn and repositories_status.stdout <= "5"
 
 - name: "Update packages"
   ansible.builtin.yum:

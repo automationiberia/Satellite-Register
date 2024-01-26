@@ -140,13 +140,13 @@
 #  ignore_errors: true
 #  with_dict: "{{ guests }}"
 
-- name: "Create target image (New VM)"
-  ansible.builtin.command: >
-          qemu-img create -f qcow2 -o preallocation={{ preallocation }} '{{ vm_location }}/{{ item.key }}/{{ item.key }}'.new.image '{{ new_image_size }}'
-  #when: is_new_image_created.stat.exists == false
-  environment:
-    LIBGUESTFS_BACKEND: '{{ env_LIBGUESTFS_BACKEND }}'
-  with_dict: "{{ guests }}"
+# - name: "Create target image (New VM)"
+#   ansible.builtin.command: >
+#           qemu-img create -f qcow2 -o preallocation={{ preallocation }} '{{ vm_location }}/{{ item.key }}/{{ item.key }}'.new.image '{{ new_image_size }}'
+#   #when: is_new_image_created.stat.exists == false
+#   environment:
+#     LIBGUESTFS_BACKEND: '{{ env_LIBGUESTFS_BACKEND }}'
+#   with_dict: "{{ guests }}"
 
 #- name: "Check if new image is already resized"
 #  shell: >

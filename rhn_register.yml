@@ -12,16 +12,18 @@
       rhn_pwd: "{{ vault_rhn_pwd }}"
       rhn_pool_name: "{{ vault_rhn_pool_id }}"
       OCP_VERSION: 3.9
-      ANSIBLE_VERSION: 2.4
-      rhel_repos:
-        - rhel-7-server-rpms
-        - rhel-7-server-extras-rpms
-        - rhel-7-fast-datapath-rpms
-        - rhel-server-rhscl-7-rpms
-        - rhel-7-server-optional-rpms
-        - rhel-7-server-supplementary-rpms
-        #- "rhel-7-server-ose-{{ OCP_VERSION }}-rpms"
-        #- "rhel-7-server-ansible-{{ ANSIBLE_VERSION }}-rpms"
+      ANSIBLE_VERSION: 2.15.8
+      rhel_repos: "{{ vm_rhel_repos | default([]) }}"
+      #   - rhel-9-for-x86_64-appstream-rpms
+      #   - rhel-9-for-x86_64-baseos-rpms
+      #   # - rhel-9-server-rpms
+      #   # - rhel-7-server-extras-rpms
+      #   # - rhel-7-fast-datapath-rpms
+      #   # - rhel-server-rhscl-7-rpms
+      #   # - rhel-7-server-optional-rpms
+      #   # - rhel-7-server-supplementary-rpms
+      #   # #- "rhel-7-server-ose-{{ OCP_VERSION }}-rpms"
+      #   # #- "rhel-7-server-ansible-{{ ANSIBLE_VERSION }}-rpms"
       
       packages_uninstall:
         - cloud-init
@@ -37,7 +39,7 @@
         - wget 
         - yum-utils 
         - iptables-services 
-        - bridge-utils 
+        # - bridge-utils 
         - bash-completion 
         - kexec-tools 
         - sos 
@@ -45,4 +47,4 @@
         - lvm2
         #- docker
 
-- ansible.builtin.import_playbook: resolv_ipa.yml
+# - ansible.builtin.import_playbook: resolv_ipa.yml
