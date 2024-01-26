@@ -48,10 +48,10 @@
   with_dict: "{{ guests }}"
 
 - name: "Enable the 'System eth0' connection to auto connect at startup"
-  ansible.builtin.lineinfile:
+  ansible.builtin.blockinfile:
     dest: '{{ vm_location }}//{{ item.key }}/user-data'
     insertafter: "^bootcmd:"
-    line: "  - nmcli con mod 'System eth0' connection.autoconnect true"
+    block: "  - /usr/bin/nmcli con mod 'System eth0' connection.autoconnect true ipv4.ignore-auto-dns true\n  - /usr/bin/nmcli con up 'System eth0'"
     state: present
   with_dict: "{{ guests }}"
 
@@ -66,7 +66,8 @@
                                           current_guest.key: {
                                             'ansible_ssh_host': current_guest.value.address,
                                             'ansible_connection': 'ssh',
-                                            'ansible_ssh_user': useransible
+                                            'ansible_ssh_user': useransible,
+                                            'ansible_ssh_private_key_file': ssh_key_file + '.pub'
                                           }
                                         }
                                       }

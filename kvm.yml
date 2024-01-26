@@ -6,6 +6,8 @@
   become_method: sudo
   environment:
     LIBGUESTFS_BACKEND: direct
+  vars:
+    ssh_key_file: "~/.ssh/pgoku.key"
   roles:
     - role: kvm-guest-qcow2
       ### Variables
@@ -24,7 +26,7 @@
       env_LIBGUESTFS_BACKEND: "direct"
       preallocation: metadata
       ssh_keys:
-        - sshkey: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA2rwE5p+z4jHTKNRLnRLjqQv9i/dBksojC/nJDhKNJc pgoku@pgoku.bcnconsulting.com
+        - sshkey: "{{ lookup('file', ssh_key_file + '.pub') }}"
       ## Users
       users:
         - name: pgoku

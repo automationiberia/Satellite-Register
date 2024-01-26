@@ -1,0 +1,23 @@
+---
+os_image: "/mnt/images/rhel-9.3-x86_64-kvm.qcow2"
+disk_size: "10G"
+vm_rhel_repos:
+  - rhel-9-for-x86_64-appstream-rpms
+  - rhel-9-for-x86_64-baseos-rpms
+## VM definition
+guests:
+  idm:
+    fqdn: idm.bcnconsulting.com
+    mem: 2048
+    cpus: 1
+    os_type: "rhel9.3"
+    file_type: "qcow2"
+    pnetwork: "virbr0"
+    model: virtio
+    graphics: spice
+    address: 192.168.122.11
+    network: 192.168.122.0
+    netmask: 255.255.255.0
+    broadcast: 192.168.122.255
+    gateway: 192.168.122.1
+...

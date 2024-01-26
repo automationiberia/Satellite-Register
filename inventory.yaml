@@ -8,6 +8,7 @@ rhn:
         aapstdalone:
             ansible_connection: ssh
             ansible_ssh_host: 192.168.122.10
+            ansible_ssh_private_key_file: ~/.ssh/pgoku.key.pub
             ansible_ssh_user: pgoku
 
 ...
