@@ -48,3 +48,4 @@
         #- docker
 
 - ansible.builtin.import_playbook: resolv_ipa.yml
+  when: skip_resolv_ipa is not defined or not (skip_resolv_ipa | bool)
