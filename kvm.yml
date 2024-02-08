@@ -1,7 +1,6 @@
 ---
-- hosts: local
+- hosts: pgoku
   gather_facts: yes
-  connection: local
   become: yes
   become_method: sudo
   environment:
