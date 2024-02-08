@@ -6,7 +6,7 @@
   environment:
     LIBGUESTFS_BACKEND: direct
   vars:
-    ssh_key_file: "~pgoku/.ssh/pgoku.key"
+    ssh_key_file: "/root/pgoku/.ssh/pgoku.key"
   roles:
     - role: kvm-guest-qcow2
       ### Variables
