@@ -8,7 +8,7 @@
     mode: "0775"
   with_dict: "{{ guests }}"
 
-- name: "Generate template  for meta-data"
+- name: "Generate template for meta-data"
   ansible.builtin.copy:
     dest: '{{ vm_location }}//{{ item.key }}/meta-data'
     mode: 0777
@@ -24,7 +24,7 @@
                gateway {{ item.value.gateway }}
   with_dict: "{{ guests }}"
 
-- name: "Generate template  for user-data"
+- name: "Generate template for user-data"
   ansible.builtin.template:
     src: "user-data.j2"
     dest: '{{ vm_location }}//{{ item.key }}/user-data'
