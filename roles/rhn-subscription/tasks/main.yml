@@ -48,10 +48,9 @@
   with_items: "{{ packages_uninstall }}"
 
 - name: "Make sure packages are installed"
-  ansible.builtin.package:
-    name: "{{ item }}"
+  ansible.builtin.yum:
+    name: "{{ packages_install }}"
     state: present
-  with_items: "{{ packages_install }}"
 
 - name: "Reboot server, load new kernel"
   ansible.builtin.shell: sleep 2 && shutdown -r now "Ansible Restart Triggered"

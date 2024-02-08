@@ -6,25 +6,28 @@
   become_method: sudo
   vars:
     ansible_ssh_pipelining: no
+    main_domain: "bcnconsulting.com"
+    ipa_user: 'admin'
+    ipa_password: 'redhat00'
   roles:
     - role: "etc_resolv"
       resolv_nameservers:
-        - "192.168.122.13"
-      resolv_domain: "lab.example.com"
+        - "192.168.122.11"
+      resolv_domain: "{{ main_domain }}"
       resolv_search:
-        - "example.com"
-        - "lab.example.com"
+        - "{{ main_domain }}"
       resolv_options:
         - "timeout:2"
         - "rotate"
   post_tasks:
     - name: "Make sure packages are installed"
-      ansible.builtin.package:
-        name: "{{ item }}"
+      ansible.builtin.yum:
+        name: "{{ packages_to_install }}"
         state: present
-      with_items:
-        - ipa-client
+      vars:
+        packages_to_install:
+          - ipa-client
 
     - name: "Configure as ipa-client"
       ansible.builtin.command: >
-              ipa-client-install -p admin --password 'redhat1234' --domain lab.example.com --server idm.lab.example.com --unattended --force-ntpd --enable-dns-updates
+              ipa-client-install -p {{ ipa_user }} --password '{{ ipa_password }}' --domain {{ main_domain }} --server idm.{{ main_domain }} --unattended --force-ntpd --enable-dns-updates

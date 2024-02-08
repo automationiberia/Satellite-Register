@@ -1,13 +1,13 @@
 ---
 os_image: "/mnt/images/rhel-9.3-x86_64-kvm.qcow2"
-disk_size: "20G"
+disk_size: "80G"
 vm_rhel_repos:
   - rhel-9-for-x86_64-appstream-rpms
   - rhel-9-for-x86_64-baseos-rpms
 ## VM definition
 guests:
-  aapstdalone:
-    fqdn: aapstdalone.bcnconsulting.com
+  git:
+    fqdn: git.bcnconsulting.com
     mem: 8192
     cpus: 4
     os_type: "rhel9.3"
@@ -15,7 +15,7 @@ guests:
     pnetwork: "virbr0"
     model: virtio
     graphics: spice
-    address: 192.168.122.10
+    address: 192.168.122.13
     network: 192.168.122.0
     netmask: 255.255.255.0
     broadcast: 192.168.122.255
