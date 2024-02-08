@@ -2,8 +2,6 @@
 - debug:
     msg:
       - "{{ lookup('ansible.builtin.env', 'HOSTNAME') }}"
-      - "{{ lookup('ansible.builtin.pipe', '/usr/sbin/ip -br a') }}"
-      - "{{ lookup('ansible.builtin.pipe', '/usr/bin/id ' + dir_owner) }}"
 - name: "Create VM directory"
   ansible.builtin.file:
     path: '{{ vm_location }}/{{ item.key }}'
