@@ -15,7 +15,7 @@ users:
 {% endfor %}
 {% for key in ssh_keys %}
     ssh_authorized_keys:
-      - "{{ lookup('file', key.sshkey + '.pub') }}"
+      - "{{ lookup('file', key.sshkey) }}"
 {% endfor %}
 
 chpasswd:
