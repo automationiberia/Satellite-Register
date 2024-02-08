@@ -1,11 +1,13 @@
 ---
+- debug:
+    msg: "{{ lookup('pipe', 'id ' + dir_owner) }}"
 - name: "Create VM directory"
   ansible.builtin.file:
     path: '{{ vm_location }}/{{ item.key }}'
     state: "directory"
     owner: '{{ dir_owner }}'
     group: '{{ dir_group }}'
-    mode: 0775
+    mode: "0775"
   with_dict: "{{ guests }}"
 
 - name: "Generate template  for meta-data"
