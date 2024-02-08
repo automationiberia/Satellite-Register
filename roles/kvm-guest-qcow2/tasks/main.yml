@@ -1,6 +1,8 @@
 ---
 - debug:
-    msg: "{{ lookup('pipe', 'id ' + dir_owner) }}"
+    msg:
+      - "{{ lookup('pipe', 'hostnamectl') }}"
+      - "{{ lookup('pipe', 'id ' + dir_owner) }}"
 - name: "Create VM directory"
   ansible.builtin.file:
     path: '{{ vm_location }}/{{ item.key }}'
