@@ -1,7 +1,4 @@
 ---
-- debug:
-    msg:
-      - "{{ lookup('ansible.builtin.env', 'HOSTNAME') }}"
 - name: "Create VM directory"
   ansible.builtin.file:
     path: '{{ vm_location }}/{{ item.key }}'
