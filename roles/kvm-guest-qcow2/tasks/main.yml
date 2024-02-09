@@ -292,7 +292,7 @@
 
 - name: "Temporary variable for output artifacts"
   ansible.builtin.set_fact:
-    __tmp_stat: "{{ (__tmp_stat | default([]) + [{'name': current_guest_to_stat.value.fqdn, 'ip': current_guest_to_stat.value.address}] }}"
+    __tmp_stat: "{{ (__tmp_stat | default([])) + [{'name': current_guest_to_stat.value.fqdn, 'ip': current_guest_to_stat.value.address}] }}"
   loop: "{{ guests | dict2items }}"
   loop_control:
     loop_var: current_guest_to_stat
