@@ -31,7 +31,7 @@
 
 - name: "Load the public ssh keys if present in the running server"
   ansible.builtin.set_fact:
-    ssh_key_contents: "{{ (ssh_key_contents | default([])) + [lookup('file', ssh_key + '.pub'] }}"
+    ssh_key_contents: "{{ lookup('file', ssh_key + '.pub' }}"
   when: key_stat.stat.exists
 
 - name: "Get the public ssh keys from pgoku if they are not present in local"
@@ -47,7 +47,7 @@
     dest: '{{ vm_location }}//{{ item.key }}/user-data'
     mode: 0777
   vars:
-    current_ssh_key: "{{ slurped_key.content }}"
+    current_ssh_key: "{{ slurped_key.content | default(ssh_key_contents) }}"
   with_dict: "{{ guests }}"
 
 - name: "Insert hostname to user-data before preserve_hostname"
