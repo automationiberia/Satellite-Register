@@ -31,7 +31,7 @@
 
 - name: "Load the public ssh keys if present in the running server"
   ansible.builtin.set_fact:
-    ssh_key_contents: "{{ lookup('file', ssh_key + '.pub') }}"
+    ssh_key_contents: "{{ lookup('file', ssh_key) }}"
   when: key_stat.stat.exists
 
 - name: "Get the public ssh keys from pgoku if they are not present in local"
