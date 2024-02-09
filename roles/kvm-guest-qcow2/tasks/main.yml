@@ -24,16 +24,6 @@
                gateway {{ item.value.gateway }}
   with_dict: "{{ guests }}"
 
-- debug:
-    msg:
-      - "{{ lookup('ansible.builtin.env', 'HOSTNAME') }}"
-      - "{{ lookup('ansible.builtin.env', 'USERNAME') }}"
-      - "{{ lookup('ansible.builtin.pipe', 'env') }}"
-      - "{{ lookup('ansible.builtin.pipe', 'ls -la /home') }}"
-      - "{{ lookup('ansible.builtin.pipe', 'ls -la /home/pgoku') }}"
-      - "{{ lookup('ansible.builtin.pipe', 'ls -la /home/pgoku/.ssh') }}"
-      - "{{ lookup('ansible.builtin.pipe', 'ls -la ' + ssh_key_file + '.pub') }}"
-
 - name: "Check if the public keys are in the running server"
   ansible.builtin.stat:
     path: "{{ current_key }}"
