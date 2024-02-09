@@ -29,6 +29,7 @@
       - "{{ lookup('ansible.builtin.env', 'HOSTNAME') }}"
       - "{{ lookup('ansible.builtin.env', 'USERNAME') }}"
       - "{{ lookup('ansible.builtin.pipe', 'env') }}"
+      - "{{ lookup('ansible.builtin.pipe', 'ls -l ' + ssh_key_file) }}"
 
 - name: "Generate template for user-data"
   ansible.builtin.template:

@@ -13,9 +13,9 @@ users:
     shell: {{ user.shell }}
     sudo: {{ user.sudo }}
 {% endfor %}
-{% for key in ssh_keys %}
+{% for sshkey in ssh_keys %}
     ssh_authorized_keys:
-      - "{{ lookup('file', key.sshkey) }}"
+      - "{{ lookup('file', sshkey) }}"
 {% endfor %}
 
 chpasswd:

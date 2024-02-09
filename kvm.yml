@@ -6,7 +6,7 @@
   environment:
     LIBGUESTFS_BACKEND: direct
   vars:
-    ssh_key_file: "/root/pgoku/.ssh/pgoku.key"
+    ssh_key_file: "/home/pgoku/.ssh/pgoku.key"
   roles:
     - role: kvm-guest-qcow2
       ### Variables
@@ -25,7 +25,7 @@
       env_LIBGUESTFS_BACKEND: "direct"
       preallocation: metadata
       ssh_keys:
-        - sshkey: "{{ ssh_key_file + '.pub' }}"
+        - "{{ ssh_key_file + '.pub' }}"
       ## Users
       users:
         - name: pgoku
