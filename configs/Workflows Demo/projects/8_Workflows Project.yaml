@@ -1,0 +1,16 @@
+---
+controller_projects:
+  - name: "Workflows Project"
+    description: ""
+    organization: "Workflows Demo"
+    scm_type: "git"
+    scm_url: "git@github.com:automationiberia/kvm-guest-rhn-idm.git"
+    scm_credential: "pgoku_github"
+    scm_branch: "new_pgoku"
+    scm_clean: "False"
+    scm_delete_on_update: "False"
+    scm_update_on_launch: "False"
+    scm_update_cache_timeout: "0"
+    allow_override: "False"
+    timeout: 0
+...

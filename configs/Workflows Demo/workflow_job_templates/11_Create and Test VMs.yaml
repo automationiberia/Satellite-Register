@@ -1,0 +1,27 @@
+---
+controller_workflows:
+  - name: "Create and Test VMs"
+    description: ""
+    organization: "Workflows Demo"
+    state: "present"
+    simplified_workflow_nodes:
+      - identifier: "4616ff7e-26f3-47d4-9258-97c693719bc5"
+        workflow_job_template: "Create and Test VMs"
+        unified_job_template: "Create the VM"
+        organization: "Workflows Demo"
+        all_parents_must_converge: "False"
+        success_nodes:
+          - 79b6e477-f20b-4393-9f7d-4b0d2451c5a8
+      - identifier: "79b6e477-f20b-4393-9f7d-4b0d2451c5a8"
+        workflow_job_template: "Create and Test VMs"
+        unified_job_template: "Ping a list of VMs"
+        organization: "Workflows Demo"
+        all_parents_must_converge: "False"
+    ask_variables_on_launch: "True"
+    allow_simultaneous: "False"
+    scm_branch: ""
+    webhook_service: ""
+    extra_vars:
+      null
+    survey_enabled: False
+...

@@ -1,0 +1,5 @@
+---
+controller_organizations:
+  - name: "Workflows Demo"
+    description: "Contains demos of how different workflows can interact eachother"
+...
