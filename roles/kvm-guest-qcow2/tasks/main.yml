@@ -29,7 +29,10 @@
       - "{{ lookup('ansible.builtin.env', 'HOSTNAME') }}"
       - "{{ lookup('ansible.builtin.env', 'USERNAME') }}"
       - "{{ lookup('ansible.builtin.pipe', 'env') }}"
-      - "{{ lookup('ansible.builtin.pipe', 'ls -l ' + ssh_key_file + '.pub') }}"
+      - "{{ lookup('ansible.builtin.pipe', 'ls -la /home') }}"
+      - "{{ lookup('ansible.builtin.pipe', 'ls -la /home/pgoku') }}"
+      - "{{ lookup('ansible.builtin.pipe', 'ls -la /home/pgoku/.ssh') }}"
+      - "{{ lookup('ansible.builtin.pipe', 'ls -la ' + ssh_key_file + '.pub') }}"
 
 - name: "Generate template for user-data"
   ansible.builtin.template:
