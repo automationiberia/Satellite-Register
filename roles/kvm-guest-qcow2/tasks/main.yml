@@ -43,7 +43,7 @@
     loop_var: current_key
 - debug: var=current_key
 - name: "Load the public ssh keys if present in the running server"
-  ansible.builtin.set_stat:
+  ansible.builtin.set_fact:
     ssh_keys_contents: "{{ (ssh_keys_contents | default([])) + [lookup('file', current_key_item + '.pub'] }}"
   ignore_errors: true
   loop: "{{ ssh_keys }}"
