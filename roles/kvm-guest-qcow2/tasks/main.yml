@@ -27,18 +27,18 @@
 - name: "Check if the public keys are in the running server"
   ansible.builtin.stat:
     path: "{{ ssh_key }}"
-  register: keys_stats
-- debug: var=keys_stats
+  register: key_stat
+
 - name: "Load the public ssh keys if present in the running server"
   ansible.builtin.set_fact:
     ssh_key_contents: "{{ (ssh_key_contents | default([])) + [lookup('file', ssh_key + '.pub'] }}"
-  ignore_errors: true
+  when: key_stat.stat.exists
 
 - name: "Get the public ssh keys from pgoku if they are not present in local"
   ansible.builtin.slurp:
     src: "{{ ssh_key }}"
   register: slurped_key
-  ignore_errors: true
+  when: not key_stat.stat.exists
 - debug: var=slurped_key
 
 - name: "Generate template for user-data"
@@ -46,6 +46,8 @@
     src: "user-data.j2"
     dest: '{{ vm_location }}//{{ item.key }}/user-data'
     mode: 0777
+  vars:
+    current_ssh_key: "{{ slurped_key.content }}"
   with_dict: "{{ guests }}"
 
 - name: "Insert hostname to user-data before preserve_hostname"

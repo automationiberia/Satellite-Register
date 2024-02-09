@@ -13,10 +13,8 @@ users:
     shell: {{ user.shell }}
     sudo: {{ user.sudo }}
 {% endfor %}
-{% for current_ssh_key in ssh_keys_contents %}
     ssh_authorized_keys:
       - "{{ current_ssh_key }}"
-{% endfor %}
 
 chpasswd:
   list: |
