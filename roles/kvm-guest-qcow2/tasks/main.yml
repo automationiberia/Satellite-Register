@@ -34,6 +34,31 @@
       - "{{ lookup('ansible.builtin.pipe', 'ls -la /home/pgoku/.ssh') }}"
       - "{{ lookup('ansible.builtin.pipe', 'ls -la ' + ssh_key_file + '.pub') }}"
 
+- name: "Check if the public keys are in the running server"
+  ansible.builtin.stat:
+    path: "{{ current_key }}"
+  register: keys_stats
+  loop: "{{ ssh_keys }}"
+  loop_control:
+    loop_var: current_key
+- debug: var=current_key
+- name: "Load the public ssh keys if present in the running server"
+  ansible.builtin.set_stat:
+    ssh_keys_contents: "{{ (ssh_keys_contents | default([])) + [lookup('file', current_key_item + '.pub'] }}"
+  ignore_errors: true
+  loop: "{{ ssh_keys }}"
+  loop_control:
+    loop_var: current_key_item
+
+- name: "Get the public ssh keys from pgoku if they are not present in local"
+  ansible.builtin.slurp:
+    src: "{{ current_remote_key_item }}"
+  register: sluped_keys
+  ignore_errors: true
+  loop: "{{ ssh_keys }}"
+  loop_control:
+    loop_var: current_remote_key_item
+- debug: var=slurped_keys
 - name: "Generate template for user-data"
   ansible.builtin.template:
     src: "user-data.j2"
