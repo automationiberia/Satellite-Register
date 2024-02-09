@@ -47,7 +47,7 @@
     dest: '{{ vm_location }}//{{ item.key }}/user-data'
     mode: 0777
   vars:
-    current_ssh_key: "{{ slurped_key.content }}"
+    current_ssh_key: "{{ slurped_key.content | b64decode }}"
   with_dict: "{{ guests }}"
 
 - name: "Insert hostname to user-data before preserve_hostname"
