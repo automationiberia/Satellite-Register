@@ -24,8 +24,7 @@
       ## Storage
       env_LIBGUESTFS_BACKEND: "direct"
       preallocation: metadata
-      ssh_keys:
-        - "{{ ssh_key_file + '.pub' }}"
+      ssh_key: "{{ ssh_key_file + '.pub' }}"
       ## Users
       users:
         - name: pgoku
