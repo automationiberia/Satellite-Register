@@ -1,0 +1,22 @@
+---
+- name: "Ping the provided hosts to check they are reachable"
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: "Create the dynamic inventory"
+      ansible.builtin.add_host:
+        hostname: "{{ current_vm_item }}"
+        ansible_ssh_user: "pgoku"
+        ansible_ssh_private_key_file: "/home/pgoku/.ssh/pgoku.key"
+        # ansible_ssh_host: '{{ inventory_hostname }}'
+        # ansible_ssh_port: '{{ new_port }}'
+      loop: "{{ vms_to_check }}"
+      loop_control:
+        loop_var: current_vm_item
+
+- hosts: all,!local,!pgoku,!rhn
+  gather_facts: false
+  tasks:
+    - name: "Run the ansible ping"
+      ansible.builtin.ping:
+...
