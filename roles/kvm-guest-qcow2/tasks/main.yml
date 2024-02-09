@@ -148,6 +148,7 @@
   
 - name: "Copy source image to new image VM"
   ansible.builtin.copy: 
+    remote_src: true
     src: '{{ image }}' 
     dest: '{{ vm_location }}/{{ item.key }}/{{ item.key }}.qcow2' 
   with_dict: "{{ guests }}"
