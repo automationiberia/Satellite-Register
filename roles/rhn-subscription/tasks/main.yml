@@ -16,9 +16,9 @@
 - name: "register System with RHN Subscription Manager"
   community.general.redhat_subscription:
     state: present
-    username: "{{ rhn_user }}"
-    password: "{{ rhn_pwd }}"
-    pool: "{{ rhn_pool_name }}"
+    username: "{{ rhn_user | default(omit) }}"
+    password: "{{ rhn_pwd | default(omit) }}"
+    pool_ids: "{{ [rhn_pool_name] | default(omit) }}"
   when: ansible_distribution == 'RedHat' and register_rhn and subscription_status != 'Current'
 
 - name: "Disable all repositories"
