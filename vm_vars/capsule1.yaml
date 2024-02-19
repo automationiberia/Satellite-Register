@@ -1,0 +1,22 @@
+os_image: /mnt/images/rhel-8.9-x86_64-kvm.qcow2
+disk_size: 50G
+vm_rhel_repos: 
+  - rhel-8-for-x86_64-baseos-rpms
+  - rhel-8-for-x86_64-appstream-rpms
+  - satellite-capsule-6.14-for-rhel-8-x86_64-rpms 
+  - satellite-maintenance-6.14-for-rhel-8-x86_64-rpms
+guests:
+  capsule1:
+    fqdn: capsule1.bcnconsulting.com
+    mem: 12288
+    cpus: 4
+    os_type: rhel8.9
+    file_type: qcow2
+    pnetwork: virbr0
+    model: virtio
+    graphics: spice
+    address: 192.168.122.101
+    network: 192.168.122.0
+    netmask: 255.255.255.0
+    broadcast: 192.168.122.255
+    gateway: 192.168.122.1

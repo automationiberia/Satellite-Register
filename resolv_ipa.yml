@@ -1,4 +1,22 @@
 ---
+- name: "Prepare the list of the hosts to be registered to IDM"
+  hosts: localhost
+  connection: local
+  tasks:
+    - when: groups['rhn'] is not defined or groups['rhn'] | length == 0
+      block:
+        - name: "Create the dynamic inventory"
+          ansible.builtin.add_host:
+            hostname: "{{ current_guest_item.value.fqdn }}"
+            groups: "rhn"
+            ansible_ssh_user: "pgoku"
+            ansible_ssh_private_key_file: "/home/pgoku/.ssh/pgoku.key"
+            ansible_ssh_host: '{{ current_guest_item.value.address }}'
+            # ansible_ssh_port: '{{ new_port }}'
+          loop: "{{ guests | dict2items }}"
+          loop_control:
+            loop_var: current_guest_item
+
 - name: "Change etc_resolv and enrolled to idm server"
   hosts: rhn
   gather_facts: yes

@@ -1,0 +1,79 @@
+Required variables:
+os_image: "/mnt/images/rhel-9.3-x86_64-kvm.qcow2"
+disk_size: "10G"
+vm_rhel_repos:
+  - rhel-9-for-x86_64-appstream-rpms
+  - rhel-9-for-x86_64-baseos-rpms
+#VM definition
+guests:
+  node1:
+    fqdn: node1.bcnconsulting.com
+    mem: 4096
+    cpus: 1
+    os_type: "rhel9.3"
+    file_type: "qcow2"
+    pnetwork: "virbr0"
+    model: virtio
+    graphics: spice
+    address: 192.168.122.201
+    network: 192.168.122.1
+    netmask: 255.255.255.0
+    broadcast: 192.168.122.255
+    gateway: 192.168.122.1
+  node2:
+    fqdn: node2.bcnconsulting.com
+    mem: 4096
+    cpus: 1
+    os_type: "rhel9.3"
+    file_type: "qcow2"
+    pnetwork: "virbr0"
+    model: virtio
+    graphics: spice
+    address: 192.168.122.202
+    network: 192.168.122.1
+    netmask: 255.255.255.0
+    broadcast: 192.168.122.255
+    gateway: 192.168.122.1
+  node3:
+    fqdn: node3.bcnconsulting.com
+    mem: 4096
+    cpus: 1
+    os_type: "rhel9.3"
+    file_type: "qcow2"
+    pnetwork: "virbr0"
+    model: virtio
+    graphics: spice
+    address: 192.168.122.203
+    network: 192.168.122.1
+    netmask: 255.255.255.0
+    broadcast: 192.168.122.255
+    gateway: 192.168.122.1
+  node4:
+    fqdn: node4.bcnconsulting.com
+    mem: 4096
+    cpus: 1
+    os_type: "rhel9.3"
+    file_type: "qcow2"
+    pnetwork: "virbr0"
+    model: virtio
+    graphics: spice
+    address: 192.168.122.204
+    network: 192.168.122.1
+    netmask: 255.255.255.0
+    broadcast: 192.168.122.255
+    gateway: 192.168.122.1
+  quorum:
+    fqdn: quorum.bcnconsulting.com
+    mem: 4096
+    cpus: 1
+    os_type: "rhel9.3"
+    file_type: "qcow2"
+    pnetwork: "virbr0"
+    model: virtio
+    graphics: spice
+    address: 192.168.122.205
+    network: 192.168.122.1
+    netmask: 255.255.255.0
+    broadcast: 192.168.122.255
+    gateway: 192.168.122.1                
+...
