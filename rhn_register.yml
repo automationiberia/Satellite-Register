@@ -28,7 +28,7 @@
       register_rhn: true
       rhn_user: "{{ vault_rhn_user | default(omit) }}"
       rhn_pwd: "{{ vault_rhn_pwd | default(omit) }}"
-      rhn_pool_name: "{{ vault_rhn_pool_id | default(omit) }}"
+      rhn_pool_name: "{{ vault_rhn_pool_id | default('') }}"
       OCP_VERSION: 3.9
       ANSIBLE_VERSION: 2.15.8
       rhel_repos: "{{ vm_rhel_repos | default([]) }}"
