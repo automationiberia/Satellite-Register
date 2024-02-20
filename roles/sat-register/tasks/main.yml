@@ -3,6 +3,7 @@
 - name: "Get the registration script from the satellite server"
   ansible.builtin.uri:
     url: "https://{{ satellite_hostname }}/register?activation_keys={{ satellite_ak }}&force={{ satellite_force }}&location_id={{ satellite_location }}&organization_id={{ satellite_organization }}&update_packages={{ satellite_update }}"
+    validate_certs: "{{ not (satellite_insecure | bool) }}"
     method: GET
     # status_code: [200, 202]
     return_content: true
