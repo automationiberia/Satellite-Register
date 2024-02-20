@@ -20,7 +20,7 @@
     state: present
     username: "{{ rhn_user | default(satellite_username) | default(omit) }}"
     password: "{{ rhn_pwd | default(satellite_password) | default(omit) }}"
-    pool_ids: "{{ [rhn_pool_name] | default(omit) }}"
+    pool_ids: "{{ [rhn_pool_name] | default([]) }}"
   when: ansible_distribution == 'RedHat' and register_rhn and subscription_status != 'Current'
 
 - name: "Disable all repositories"
