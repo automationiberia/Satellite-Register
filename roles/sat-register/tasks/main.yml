@@ -2,7 +2,7 @@
 # tasks file for sat-register
 - name: "Get the registration script from the satellite server"
   ansible.builtin.uri:
-    url: "https://{{ satellite_hostname }}/register?activation_keys={{ satellite_ak }}&force={{ satellite_force }}&location={{ satellite_location }}&organization={{ satellite_organization }}&update_packages={{ satellite_update }}"
+    url: "https://{{ satellite_hostname }}/register?activation_keys={{ satellite_ak }}&force={{ satellite_force }}&location={{ satellite_location }}&organization={{ satellite_organization }}&update_packages={{ satellite_update | lower }}"
     validate_certs: "{{ not (satellite_insecure | bool) }}"
     method: GET
     # status_code: [200, 202]
@@ -11,11 +11,11 @@
       Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE3MDg0NDExOTMsImp0aSI6IjM2NTE0MWQ5MThmY2VlM2Q4ZmIwOTc0NjdiNDNjODE2NjM0MWJjMjAxNzZiODk5MjBmNTgwZjA4ZjQ0NzZjMmEiLCJzY29wZSI6InJlZ2lzdHJhdGlvbiNnbG9iYWwgcmVnaXN0cmF0aW9uI2hvc3QifQ.51VydFwq2A4F_6loIf9MZ3XqStxqvMS8wE0x6Dyf6lg'
   register: registration_script
 
-- name: "Write the registration script"
+- name: "Write the registration script to a local file"
   ansible.builtin.copy:
     dest: "/tmp/satregister.sh"
     content: "{{ registration_script.content }}"
     mode: "0755"
 
-- name: "Run the retistration script"
+- name: "Run the registration script"
   ansible.builtin.command: "/tmp/satregister.sh"
