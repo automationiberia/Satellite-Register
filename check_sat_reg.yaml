@@ -7,7 +7,7 @@
     - name: "Get the hosts from Satellite"
       ansible.builtin.uri:
         validate_certs: "{{ not (satellite_insecure | bool) }}"
-        url: "https://read_hosts:lghKLRcuiPnIAK0WeTp8eA@{{ satellite_hostname }}/api/v2/hosts/{{ current_vm_item.value.name }}"
+        url: "https://read_hosts:lghKLRcuiPnIAK0WeTp8eA@{{ satellite_hostname }}/api/v2/hosts/{{ current_vm_item.value.fqdn }}"
         force_basic_auth: true
       loop: "{{ guests | dict2items }}"
       loop_control:
