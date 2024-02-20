@@ -16,7 +16,7 @@
 - name: "register System with RHN Subscription Manager"
   community.general.redhat_subscription:
     server_hostname: "{{ satellite_hostname | default(omit) }}"
-    server_insecure: "{{ satellite_insecure | default(omit) }}"
+    server_insecure: "{{ (satellite_insecure | bool) | default(omit) }}"
     state: present
     username: "{{ rhn_user | default(satellite_username) | default(omit) }}"
     password: "{{ rhn_pwd | default(satellite_password) | default(omit) }}"
