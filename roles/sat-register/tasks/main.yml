@@ -11,6 +11,11 @@
       Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE3MDg0NDExOTMsImp0aSI6IjM2NTE0MWQ5MThmY2VlM2Q4ZmIwOTc0NjdiNDNjODE2NjM0MWJjMjAxNzZiODk5MjBmNTgwZjA4ZjQ0NzZjMmEiLCJzY29wZSI6InJlZ2lzdHJhdGlvbiNnbG9iYWwgcmVnaXN0cmF0aW9uI2hvc3QifQ.51VydFwq2A4F_6loIf9MZ3XqStxqvMS8wE0x6Dyf6lg'
   register: registration_script
 
-- name: "Show the registration script"
-  ansible.builtin.debug:
-    var: registration_script
+- name: "Write the registration script"
+  ansible.builtin.copy:
+    dest: "/tmp/satregister.sh"
+    content: "{{ registration_script.content }}"
+    mode: "0755"
+
+- name: "Run the retistration script"
+  ansible.builtin.command: "/tmp/satregister.sh"
