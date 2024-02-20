@@ -8,6 +8,7 @@
       ansible.builtin.uri:
         validate_certs: "{{ not (satellite_insecure | bool) }}"
         url: "https://read_hosts:lghKLRcuiPnIAK0WeTp8eA@{{ satellite_hostname }}/api/v2/hosts/{{ current_vm_item.name }}"
+        force_basic_auth: true
       loop: "{{ vms_to_check }}"
       loop_control:
         loop_var: current_vm_item
