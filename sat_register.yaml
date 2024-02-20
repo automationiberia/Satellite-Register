@@ -1,0 +1,28 @@
+---
+- name: "Prepare the list of the hosts to be registered to Satellite"
+  hosts: localhost
+  connection: local
+  tasks:
+    - block:
+        - name: "Create the dynamic inventory"
+          ansible.builtin.add_host:
+            hostname: "{{ current_guest_item.value.fqdn }}"
+            groups: "satellite_clients"
+            ansible_ssh_user: "pgoku"
+            ansible_ssh_private_key_file: "/home/pgoku/.ssh/pgoku.key"
+            ansible_ssh_host: '{{ current_guest_item.value.address }}'
+            # ansible_ssh_port: '{{ new_port }}'
+          loop: "{{ guests | dict2items }}"
+          loop_control:
+            loop_var: current_guest_item
+
+- name: "Register the machines to the satellite server"
+  hosts: satellite_clients
+  gather_facts: no
+  become: yes
+  become_method: sudo
+  vars:
+    ansible_ssh_pipelining: no
+  roles:
+    - role: sat-register
+...

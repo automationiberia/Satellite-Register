@@ -1,0 +1,15 @@
+---
+# tasks file for sat-register
+- name: "Get the registration script from the satellite server"
+  ansible.builtin.uri:
+    url: "https://{{ satellite_hostname }}/register?activation_keys={{ satellite_ak }}&force={{ satellite_force }}&location_id={{ satellite_location }}&organization_id={{ satellite_organization }}&update_packages={{ satellite_update }}"
+    method: GET
+    # status_code: [200, 202]
+    return_content: true
+    headers:
+      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE3MDg0NDExOTMsImp0aSI6IjM2NTE0MWQ5MThmY2VlM2Q4ZmIwOTc0NjdiNDNjODE2NjM0MWJjMjAxNzZiODk5MjBmNTgwZjA4ZjQ0NzZjMmEiLCJzY29wZSI6InJlZ2lzdHJhdGlvbiNnbG9iYWwgcmVnaXN0cmF0aW9uI2hvc3QifQ.51VydFwq2A4F_6loIf9MZ3XqStxqvMS8wE0x6Dyf6lg'
+  register: registration_script
+
+- name: "Show the registration script"
+  ansible.builtin.debug:
+    var: registration_script
