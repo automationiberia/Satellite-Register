@@ -7,9 +7,9 @@
     - name: "Get the hosts from Satellite"
       ansible.builtin.uri:
         validate_certs: "{{ not (satellite_insecure | bool) }}"
+        url_username: "read_hosts"
+        url_password: "lghKLRcuiPnIAK0WeTp8eA"
         url: "https://{{ satellite_hostname }}/api/v2/hosts/{{ current_vm_item.name }}"
-        headers:
-          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE3MDg0NDExOTMsImp0aSI6IjM2NTE0MWQ5MThmY2VlM2Q4ZmIwOTc0NjdiNDNjODE2NjM0MWJjMjAxNzZiODk5MjBmNTgwZjA4ZjQ0NzZjMmEiLCJzY29wZSI6InJlZ2lzdHJhdGlvbiNnbG9iYWwgcmVnaXN0cmF0aW9uI2hvc3QifQ.51VydFwq2A4F_6loIf9MZ3XqStxqvMS8wE0x6Dyf6lg'
       loop: "{{ vms_to_check }}"
       loop_control:
         loop_var: current_vm_item
