@@ -15,16 +15,31 @@
 
 - name: "register System with RHN Subscription Manager"
   community.general.redhat_subscription:
+    state: present
+    username: "{{ rhn_user }}"
+    password: "{{ rhn_pwd }}"
+    pool_ids: "{{ [rhn_pool_name] }}"
+  when:
+    - ansible_distribution == 'RedHat'
+    - register_rhn
+    - subscription_status != 'Current'
+    - rhn_user is defined
+    - rhn_user != ''
+
+- name: "register System with RHN Subscription Manager"
+  community.general.redhat_subscription:
     server_hostname: "{{ satellite_hostname | default(omit) }}"
     server_insecure: "{{ satellite_insecure | default(True) }}"
     org_id: "{{ satellite_organization | default(omit) }}"
     activationkey: "{{ satellite_ak | default(omit) }}"
     state: present
-    username: "{{ rhn_user | default(satellite_username) | default(omit) }}"
-    password: "{{ rhn_pwd | default(satellite_password) | default(omit) }}"
     force_register: "{{ register_rhn | bool }}"
-    # pool_ids: "{{ [rhn_pool_name] | default([]) }}"
-  when: ansible_distribution == 'RedHat' and register_rhn and subscription_status != 'Current'
+  when:
+    - ansible_distribution == 'RedHat'
+    - register_rhn
+    - subscription_status != 'Current'
+    - satellite_ak is defined
+    - satellite_ak != ''
 
 - name: "Disable all repositories"
   ansible.builtin.command: subscription-manager repos --disable=\*
