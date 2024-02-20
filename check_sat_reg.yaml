@@ -1,0 +1,14 @@
+---
+- name: "Check the provided hosts are registered to the Satellite Server"
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: "Get the hosts from Satellite"
+      ansible.builtin.uri:
+        url: "https://{{ satellite_hostname }}/api/v2/hosts/{{ current_vm_item.name }}"
+      loop: "{{ vms_to_check }}"
+      loop_control:
+        loop_var: current_vm_item
+
+...
