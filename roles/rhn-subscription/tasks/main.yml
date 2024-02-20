@@ -15,9 +15,11 @@
 
 - name: "register System with RHN Subscription Manager"
   community.general.redhat_subscription:
+    server_hostname: "{{ satellite_hostname | default(omit) }}"
+    server_insecure: "{{ satellite_insecure | default(omit) }}"
     state: present
-    username: "{{ rhn_user | default(omit) }}"
-    password: "{{ rhn_pwd | default(omit) }}"
+    username: "{{ rhn_user | default(satellite_username) | default(omit) }}"
+    password: "{{ rhn_pwd | default(satellite_password) | default(omit) }}"
     pool_ids: "{{ [rhn_pool_name] | default(omit) }}"
   when: ansible_distribution == 'RedHat' and register_rhn and subscription_status != 'Current'
 
