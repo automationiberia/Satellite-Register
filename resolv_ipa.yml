@@ -48,4 +48,4 @@
 
     - name: "Configure as ipa-client"
       ansible.builtin.command: >
-              ipa-client-install -p {{ ipa_user }} --password '{{ ipa_password }}' --domain {{ main_domain }} --server idm.{{ main_domain }} --unattended --force-ntpd --enable-dns-updates
+        ipa-client-install -p {{ ipa_user }} --password '{{ ipa_password }}' --domain {{ main_domain }} --server idm.{{ main_domain }} --unattended --force-ntpd --enable-dns-updates
