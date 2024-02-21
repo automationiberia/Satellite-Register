@@ -3,7 +3,10 @@
   hosts: localhost
   connection: local
   tasks:
-    - block:
+    - when:
+        - sat_register is defined
+        - sat_register | bool
+      block:
         - name: "Create the dynamic inventory"
           ansible.builtin.add_host:
             hostname: "{{ current_guest_item.value.fqdn }}"
@@ -25,4 +28,7 @@
     ansible_ssh_pipelining: no
   roles:
     - role: sat-register
+      when:
+        - sat_register is defined
+        - sat_register | bool
 ...
