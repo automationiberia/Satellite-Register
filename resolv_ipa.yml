@@ -3,12 +3,15 @@
   hosts: localhost
   connection: local
   tasks:
-    - when: groups['rhn'] is not defined or groups['rhn'] | length == 0
+    - when:
+        - groups['idm_clients'] is not defined or groups['idm_clients'] | length == 0
+        - idm_register is defined
+        - idm_register | bool
       block:
         - name: "Create the dynamic inventory"
           ansible.builtin.add_host:
             hostname: "{{ current_guest_item.value.fqdn }}"
-            groups: "rhn"
+            groups: "idm_clients"
             ansible_ssh_user: "pgoku"
             ansible_ssh_private_key_file: "/home/pgoku/.ssh/pgoku.key"
             ansible_ssh_host: '{{ current_guest_item.value.address }}'
@@ -18,7 +21,7 @@
             loop_var: current_guest_item
 
 - name: "Change etc_resolv and enrolled to idm server"
-  hosts: rhn
+  hosts: idm_clients
   gather_facts: yes
   become: yes
   become_method: sudo
