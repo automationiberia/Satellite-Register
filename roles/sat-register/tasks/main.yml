@@ -8,7 +8,7 @@
     # status_code: [200, 202]
     return_content: true
     headers:
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE3MDg0NDExOTMsImp0aSI6IjM2NTE0MWQ5MThmY2VlM2Q4ZmIwOTc0NjdiNDNjODE2NjM0MWJjMjAxNzZiODk5MjBmNTgwZjA4ZjQ0NzZjMmEiLCJzY29wZSI6InJlZ2lzdHJhdGlvbiNnbG9iYWwgcmVnaXN0cmF0aW9uI2hvc3QifQ.51VydFwq2A4F_6loIf9MZ3XqStxqvMS8wE0x6Dyf6lg'
+      Authorization: "{{ auth_bearer }}"
   register: registration_script
 
 - name: "Write the registration script to a local file"
