@@ -38,6 +38,13 @@
       timezone: "Europe/Madrid"
       ## VM definition
       guests: "{{ guest_list }}"
+  post_tasks:
+    - name: "Show variables for RHN or SAT registration"
+      ansible.builtin.debug:
+        var: "{{ current_var }}"
+      loop:
+        - skip_rhn_register
+        - sat_register
 
 - ansible.builtin.import_playbook: rhn_register.yml
   when:

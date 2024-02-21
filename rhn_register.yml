@@ -1,5 +1,5 @@
 ---
-- name: "Prepare the list of the hosts to be registered to Satellite"
+- name: "Prepare the list of the hosts to be registered to RHN"
   hosts: localhost
   connection: local
   tasks:
