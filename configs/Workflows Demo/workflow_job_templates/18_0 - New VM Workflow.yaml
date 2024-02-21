@@ -29,6 +29,6 @@ controller_workflows:
     scm_branch: ""
     webhook_service: ""
     extra_vars:
-      skip_rhn_register: true
+      sat_register: true
     survey_enabled: False
 ...
