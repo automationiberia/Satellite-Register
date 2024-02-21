@@ -51,4 +51,4 @@
 - ansible.builtin.import_playbook: rhn_register.yml
   when:
     - skip_rhn_register is not defined or not (skip_rhn_register | bool)
-    - sat_register is not defined or not (sat_register | bool)
+    - sat_register is not defined
