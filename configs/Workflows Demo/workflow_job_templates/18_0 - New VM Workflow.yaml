@@ -1,0 +1,34 @@
+---
+controller_workflows:
+  - name: "0 - New VM Workflow"
+    description: ""
+    organization: "Workflows Demo"
+    state: "present"
+    simplified_workflow_nodes:
+      - identifier: "65e74075-9742-4654-bc66-a450f9ea67b4"
+        workflow_job_template: "0 - New VM Workflow"
+        unified_job_template: "Satellite Register and Check"
+        organization: "Workflows Demo"
+        all_parents_must_converge: "False"
+        success_nodes:
+          - a44734a0-dcb1-4724-8db8-68d0bb00f417
+      - identifier: "11576f70-e842-4cc2-8abb-2aedd5266721"
+        workflow_job_template: "0 - New VM Workflow"
+        unified_job_template: "Create and Test VMs"
+        organization: "Workflows Demo"
+        all_parents_must_converge: "False"
+        success_nodes:
+          - 65e74075-9742-4654-bc66-a450f9ea67b4
+      - identifier: "a44734a0-dcb1-4724-8db8-68d0bb00f417"
+        workflow_job_template: "0 - New VM Workflow"
+        unified_job_template: "IDM Register"
+        organization: "Workflows Demo"
+        all_parents_must_converge: "False"
+    ask_variables_on_launch: "True"
+    allow_simultaneous: "False"
+    scm_branch: ""
+    webhook_service: ""
+    extra_vars:
+      skip_rhn_register: true
+    survey_enabled: False
+...

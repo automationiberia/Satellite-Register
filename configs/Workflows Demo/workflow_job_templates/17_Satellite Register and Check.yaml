@@ -1,0 +1,27 @@
+---
+controller_workflows:
+  - name: "Satellite Register and Check"
+    description: ""
+    organization: "Workflows Demo"
+    state: "present"
+    simplified_workflow_nodes:
+      - identifier: "8cc08812-f48c-4ce2-a7e0-7aa84381bd72"
+        workflow_job_template: "Satellite Register and Check"
+        unified_job_template: "Satellite Register"
+        organization: "Workflows Demo"
+        all_parents_must_converge: "False"
+        success_nodes:
+          - 8cb0dff3-7a87-4eb9-8ef5-b74be615f6e8
+      - identifier: "8cb0dff3-7a87-4eb9-8ef5-b74be615f6e8"
+        workflow_job_template: "Satellite Register and Check"
+        unified_job_template: "Check Satellite Registration"
+        organization: "Workflows Demo"
+        all_parents_must_converge: "False"
+    ask_variables_on_launch: "True"
+    allow_simultaneous: "False"
+    scm_branch: ""
+    webhook_service: ""
+    extra_vars:
+      null
+    survey_enabled: False
+...
