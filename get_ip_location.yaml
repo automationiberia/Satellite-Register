@@ -1,0 +1,25 @@
+---
+- name: Get IP Address and Set Location Fact
+  hosts: all
+  tasks:
+    - debug:
+        msg:
+          - "{{ ansible_all_ipv4_addresses | ansible.utils.reduce_on_network( '192.168.122.0/24' ) }}"
+
+    - name: Set Location fact based on IP address pattern
+      set_fact:
+        Location: "BCN"
+      when: ( ansible_all_ipv4_addresses | ansible.utils.reduce_on_network( '192.168.122.0/24' ) ) or
+            ( ansible_all_ipv4_addresses | ansible.utils.reduce_on_network( '192.168.123.0/24' ) ) or
+            ( ansible_all_ipv4_addresses | ansible.utils.reduce_on_network( '192.168.124.0/24' ) )
+
+    - name: Set Location fact to MAD if IP address pattern doesn't match
+      set_fact:
+        Location: "MAD"
+      when: Location is not defined
+
+    - name: Display IP Address and Location
+      debug:
+        msg: "The IP address of {{ inventory_hostname }} is {{ item }} and its location is {{ Location }}"
+      loop: "{{ ansible_all_ipv4_addresses }}"
+...
