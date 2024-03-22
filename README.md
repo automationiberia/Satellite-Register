@@ -6,7 +6,7 @@ Ansible playbook to create a KVM guest from a qcow2 image, register to RHN, inst
 Requirements
 ------------
 
-This role is tested on Ansible 2.7.7 and rhel 7 .
+This role is tested on Ansible 2.16.4
 
 Dependencies
 ------------
@@ -14,6 +14,31 @@ N/A
 
 Example Playbook
 ----------------
+sat_register.yml
+
+.Create file `vault_sat_vars.yaml` with redhat account user
+```
+cat < EOF > vault_sat_vars.yaml
+---
+satellite_hostname: satellite614.server.lab
+satellite_insecure: true
+satellite_update: false
+satellite_ak: test
+satellite_force: true
+satellite_organization: org
+satellite_location: lab
+auth_bearer: Bearer TOKEN_GENERATED_FROM_GLOBAL_REGISTRATION_FORM
+...
+EOF
+```
+Encrypted with vault
+
+```
+ansible-vault create vault_sat_vars.yaml
+ansible-vault encrypt vault_sat_vars.yaml
+ansible-vault edit vault_sat_vars.yaml
+```
+
 rhn_register.yml
 
 .Create file `vault_rhn_vars.yaml` with redhat account user
@@ -35,6 +60,7 @@ ansible-vault edit vault_rhn_vars.yaml
 Execute playbook
 
 ```
+ansible-playbook sat_register.yml -e@aap.yaml -e@vault_sat_vars.yaml --ask-vault-pass
 ansible-playbook rhn_register.yml -e@aap.yaml -e@vault_rhn_vars.yaml --ask-vault-pass
 ```
 
