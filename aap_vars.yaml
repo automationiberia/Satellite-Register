@@ -1,0 +1,6 @@
+---
+vault_controller_username: admin
+vault_controller_password: redhat00
+vault_controller_hostname: localhost:8443
+vault_controller_validate_certs: false
+...

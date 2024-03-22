@@ -1,5 +1,5 @@
 ---
-- name: "Check the provided hosts are registered to the Satellite Server"
+- name: "Check the provided hosts are registered to the Satellite Register - Satellite Server"
   hosts: localhost
   connection: local
   gather_facts: false
@@ -8,7 +8,7 @@
         - sat_register is defined
         - sat_register | bool
       block:
-        - name: "Get the hosts from Satellite"
+        - name: "Get the hosts from Satellite Register - Satellite"
           ansible.builtin.uri:
             validate_certs: "{{ not (satellite_insecure | bool) }}"
             url: "https://read_hosts:lghKLRcuiPnIAK0WeTp8eA@{{ satellite_hostname }}/api/v2/hosts/{{ current_vm_item.value.fqdn }}"

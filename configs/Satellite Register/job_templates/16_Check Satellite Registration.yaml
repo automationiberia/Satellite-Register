@@ -1,10 +1,10 @@
 ---
 controller_templates:
-  - name: "Check Satellite Registration"
-    description: "Checks whether a VM has been registered to Satellite"
+  - name: "Check Satellite Register - Satellite Registration"
+    description: "Checks whether a VM has been registered to Satellite Register - Satellite"
     organization: "Satellite Register"
-    project: "Workflows Project"
-    inventory: "pgoku"
+    project: "Satellite Register - Project"
+    inventory: "Satellite Register - pgoku"
     playbook: "check_sat_reg.yaml"
     scm_branch: ""
     forks: 0
@@ -14,7 +14,7 @@ controller_templates:
     job_slice_count: 1
     use_fact_cache: False
     credentials:
-      - "Satellite Custom"
+      - "Satellite Register - Satellite Custom"
     allow_simultaneous: False
     ask_scm_branch_on_launch: False
     ask_diff_mode_on_launch: False

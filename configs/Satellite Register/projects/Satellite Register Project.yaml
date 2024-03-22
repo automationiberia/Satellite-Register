@@ -1,12 +1,12 @@
 ---
 controller_projects:
-  - name: "Workflows Project"
+  - name: "Satellite Register - Project"
     description: ""
     organization: "Satellite Register"
     scm_type: "git"
-    scm_url: "git@github.com:automationiberia/Satellite-Register.git"
-    scm_credential: "pgoku_github"
-    scm_branch: "new_pgoku"
+    scm_url: "https://github.com/automationiberia/Satellite-Register.git"
+    scm_credential: "Satellite Register - pgoku_github"
+    #scm_branch: ""
     scm_clean: "False"
     scm_delete_on_update: "False"
     scm_update_on_launch: "False"

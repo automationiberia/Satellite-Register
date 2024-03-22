@@ -3,8 +3,8 @@ controller_templates:
   - name: "Ping a list of VMs"
     description: ""
     organization: "Satellite Register"
-    project: "Workflows Project"
-    inventory: "pgoku"
+    project: "Satellite Register - Project"
+    inventory: "Satellite Register - pgoku"
     playbook: "ping.yaml"
     scm_branch: ""
     forks: 0
@@ -14,8 +14,8 @@ controller_templates:
     job_slice_count: 1
     use_fact_cache: False
     credentials:
-      - "Vault"
-      - "pgoku"
+      - "Satellite Register - Vault"
+      - "Satellite Register - pgoku"
     allow_simultaneous: False
     ask_scm_branch_on_launch: False
     ask_diff_mode_on_launch: False

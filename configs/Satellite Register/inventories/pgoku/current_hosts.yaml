@@ -1,8 +1,8 @@
 ---
 controller_hosts:
-  - name: "pgoku.bcnconsulting.com"
+  - name: "Satellite Register - pgoku.bcnconsulting.com"
     description: ""
-    inventory: "pgoku"
+    inventory: "Satellite Register - pgoku"
     variables:
       ansible_connection: ssh
       ansible_port: 42022

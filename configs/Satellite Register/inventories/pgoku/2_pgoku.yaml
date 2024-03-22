@@ -1,6 +1,6 @@
 ---
 controller_inventories:
-  - name: "pgoku"
+  - name: "Satellite Register - pgoku"
     description: ""
     organization: "Satellite Register"
     host_filter: ""

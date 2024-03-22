@@ -1,8 +1,8 @@
 ---
 controller_groups:
-  - name: "pgoku"
+  - name: "Satellite Register - pgoku"
     description: ""
-    inventory: "pgoku"
+    inventory: "Satellite Register - pgoku"
     hosts:
-      - pgoku.bcnconsulting.com
+      - Satellite Register - pgoku.bcnconsulting.com
 ...
