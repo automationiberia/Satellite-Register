@@ -1,4 +1,22 @@
 ---
+- name: "Prepare the list of the hosts to be registered to RHN"
+  hosts: localhost
+  connection: local
+  tasks:
+    - when: groups['rhn'] is not defined or groups['rhn'] | length == 0
+      block:
+        - name: "Create the dynamic inventory"
+          ansible.builtin.add_host:
+            hostname: "{{ current_guest_item.value.fqdn }}"
+            groups: "rhn"
+            ansible_ssh_user: "pgoku"
+            ansible_ssh_private_key_file: "/home/pgoku/.ssh/pgoku.key"
+            ansible_ssh_host: '{{ current_guest_item.value.address }}'
+            # ansible_ssh_port: '{{ new_port }}'
+          loop: "{{ guests | dict2items }}"
+          loop_control:
+            loop_var: current_guest_item
+
 - hosts: rhn
   gather_facts: yes
   become: yes
@@ -8,41 +26,42 @@
   roles:
     - role: rhn-subscription
       register_rhn: true
-      rhn_user: "{{ vault_rhn_user }}"
-      rhn_pwd: "{{ vault_rhn_pwd }}"
-      rhn_pool_name: "{{ vault_rhn_pool_id }}"
+      # rhn_user: "{{ vault_rhn_user | default(omit) }}"
+      # rhn_pwd: "{{ vault_rhn_pwd | default(omit) }}"
+      # rhn_pool_name: "{{ vault_rhn_pool_id | default('') }}"
       OCP_VERSION: 3.9
-      ANSIBLE_VERSION: 2.4
-      rhel_repos:
-        - rhel-7-server-rpms
-        - rhel-7-server-extras-rpms
-        - rhel-7-fast-datapath-rpms
-        - rhel-server-rhscl-7-rpms
-        - rhel-7-server-optional-rpms
-        - rhel-7-server-supplementary-rpms
-        #- "rhel-7-server-ose-{{ OCP_VERSION }}-rpms"
-        #- "rhel-7-server-ansible-{{ ANSIBLE_VERSION }}-rpms"
-      
+      ANSIBLE_VERSION: 2.15.8
+      rhel_repos: "{{ vm_rhel_repos | default([]) }}"
+      #   - rhel-9-for-x86_64-appstream-rpms
+      #   - rhel-9-for-x86_64-baseos-rpms
+      #   # - rhel-9-server-rpms
+      #   # - rhel-7-server-extras-rpms
+      #   # - rhel-7-fast-datapath-rpms
+      #   # - rhel-server-rhscl-7-rpms
+      #   # - rhel-7-server-optional-rpms
+      #   # - rhel-7-server-supplementary-rpms
+      #   # #- "rhel-7-server-ose-{{ OCP_VERSION }}-rpms"
+      #   # #- "rhel-7-server-ansible-{{ ANSIBLE_VERSION }}-rpms"
+
       packages_uninstall:
         - cloud-init
-      
+
       packages_install:
         - vim
         - vim-enhanced
         - nmap
         - net-tools
-        #- ansible
-        #- git
+       # - ansible
+        - git
         - bind-utils
-        - wget 
-        - yum-utils 
-        - iptables-services 
-        - bridge-utils 
-        - bash-completion 
-        - kexec-tools 
-        - sos 
+        - wget
+        - yum-utils
+        - iptables-services
+        # - bridge-utils
+        - bash-completion
+        - kexec-tools
+        - sos
         - psacct
         - lvm2
         #- docker
-
-- import_playbook: resolv_ipa.yml
+...

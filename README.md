@@ -14,14 +14,12 @@ N/A
 
 Example Playbook
 ----------------
-It is composeby 3 playbooks.
-
-kvm.yml --> rhn_register.yml --> resolv_ipa.yml
+rhn_register.yml
 
  Create file vars/vault.yml with redhat account user
 ```
-cat < EOF > vars/vault.yml 
-vault_rhn_user: redhat-support-active-account 
+cat < EOF > vars/vault.yml
+vault_rhn_user: redhat-support-active-account
 vault_rhn_pwd: p4$$W0rD
 vault_rhn_pool_id: 01123581321245589144233377610987
 EOF
@@ -37,7 +35,7 @@ ansible-vault edit vars/vault.yml
 Execute playbook
 
 ```
-ansible-playbook -i inventory test.yml -K --ask-vault-pass
+ansible-playbook rhn_register.yml -e@vm_vars/aap.yaml -e@vault_rhn_vars.yaml --ask-vault-pass
 ```
 
 

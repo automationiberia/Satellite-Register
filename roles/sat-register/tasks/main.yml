@@ -1,0 +1,21 @@
+---
+# tasks file for sat-register
+- name: "Get the registration script from the satellite server"
+  ansible.builtin.uri:
+    url: "https://{{ satellite_hostname }}/register?activation_keys={{ satellite_ak }}&force={{ satellite_force }}&location={{ satellite_location }}&organization={{ satellite_organization }}&setup_remote_execution=true&update_packages={{ satellite_update | lower }}"
+    validate_certs: "{{ not (satellite_insecure | bool) }}"
+    method: GET
+    # status_code: [200, 202]
+    return_content: true
+    headers:
+      Authorization: "{{ auth_bearer }}"
+  register: registration_script
+
+- name: "Write the registration script to a local file"
+  ansible.builtin.copy:
+    dest: "/tmp/satregister.sh"
+    content: "{{ registration_script.content }}"
+    mode: "0755"
+
+- name: "Run the registration script"
+  ansible.builtin.command: "/tmp/satregister.sh"

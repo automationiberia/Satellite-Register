@@ -1,0 +1,8 @@
+---
+controller_inventories:
+  - name: "pgoku"
+    description: ""
+    organization: "Satellite Register"
+    host_filter: ""
+    prevent_instance_group_fallback: False
+...

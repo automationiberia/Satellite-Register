@@ -1,5 +1,0 @@
----
-[local]
-localhost ansible_conection=local
-
-[rhn]

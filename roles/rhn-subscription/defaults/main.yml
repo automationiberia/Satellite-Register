@@ -5,16 +5,18 @@ rhn_user: "{{ vault_rhn_user }}"
 rhn_pwd: "{{ vault_rhn_pwd }}"
 rhn_pool_name: "{{ vault_rhn_pool_id }}"
 OCP_VERSION: 3.11
-ANSIBLE_VERSION: 2.7
-rhel_repos:
-  - rhel-7-server-rpms
-  - rhel-7-server-extras-rpms
-  - rhel-7-fast-datapath-rpms
-  - rhel-server-rhscl-7-rpms
-  - rhel-7-server-optional-rpms
-  - rhel-7-server-supplementary-rpms
-  - "rhel-7-server-ose-{{ OCP_VERSION }}-rpms"
-  - "rhel-7-server-ansible-{{ ANSIBLE_VERSION }}-rpms"
+ANSIBLE_VERSION: 2.15.8
+rhel_repos: []
+#   - rhel-9-for-x86_64-appstream-rpms
+#   - rhel-9-for-x86_64-baseos-rpms
+#   # - rhel-7-server-rpms
+#   # - rhel-7-server-extras-rpms
+#   # - rhel-7-fast-datapath-rpms
+#   # - rhel-server-rhscl-7-rpms
+#   # - rhel-7-server-optional-rpms
+#   # - rhel-7-server-supplementary-rpms
+#   # - "rhel-7-server-ose-{{ OCP_VERSION }}-rpms"
+#   # - "rhel-7-server-ansible-{{ ANSIBLE_VERSION }}-rpms"
 
 packages_uninstall:
   - cloud-init
@@ -29,7 +31,7 @@ packages_install:
   - bind-utils
 
 realm: LAB.EXAMPLE.COM
-domain: lab.example.com
+domain: bcnconsulting.com
 dm_pass: redhat1234
 admin_pass: Redhat1234
 forward_ip: 8.8.8.8

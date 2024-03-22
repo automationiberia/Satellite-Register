@@ -1,0 +1,8 @@
+---
+controller_groups:
+  - name: "pgoku"
+    description: ""
+    inventory: "pgoku"
+    hosts:
+      - pgoku.bcnconsulting.com
+...

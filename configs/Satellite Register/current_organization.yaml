@@ -1,0 +1,5 @@
+---
+controller_organizations:
+  - name: "Satellite Register"
+    description: "Contains demos of how different workflows can interact eachother"
+...
