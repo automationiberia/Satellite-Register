@@ -16,9 +16,9 @@ Example Playbook
 ----------------
 rhn_register.yml
 
- Create file vars/vault.yml with redhat account user
+.Create file `vault_rhn_vars.yaml` with redhat account user
 ```
-cat < EOF > vars/vault.yml
+cat < EOF > vault_rhn_vars.yaml
 vault_rhn_user: redhat-support-active-account
 vault_rhn_pwd: p4$$W0rD
 vault_rhn_pool_id: 01123581321245589144233377610987
@@ -27,15 +27,15 @@ EOF
 Encrypted with vault
 
 ```
-ansible-vault create vars/vault.yml
-ansible-vault encrypt vars/vault.yml
-ansible-vault edit vars/vault.yml
+ansible-vault create vault_rhn_vars.yaml
+ansible-vault encrypt vault_rhn_vars.yaml
+ansible-vault edit vault_rhn_vars.yaml
 ```
 
 Execute playbook
 
 ```
-ansible-playbook rhn_register.yml -e@vm_vars/aap.yaml -e@vault_rhn_vars.yaml --ask-vault-pass
+ansible-playbook rhn_register.yml -e@aap.yaml -e@vault_rhn_vars.yaml --ask-vault-pass
 ```
 
 
