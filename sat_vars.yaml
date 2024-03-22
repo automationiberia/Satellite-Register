@@ -1,0 +1,10 @@
+---
+satellite_hostname: satellite614.iam.lab
+satellite_insecure: true
+satellite_update: false
+satellite_ak: test
+satellite_force: true
+satellite_organization: iam_org
+satellite_location: lab
+auth_bearer: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE3MTExMDY1NzEsImp0aSI6IjhkNWVjZjIwNWYyYzhjNTRhNjNhNTUxYTQ1OGI1OTlkMjUxMThhZjBiODIzNjZkYmQyYjFiZWEwYTQyMzU4Y2YiLCJzY29wZSI6InJlZ2lzdHJhdGlvbiNnbG9iYWwgcmVnaXN0cmF0aW9uI2hvc3QifQ.qqnR4GX-z0gzgAYzr7lZ4jd9Ur4WOzvQdBvPE8-jtpU
+...
