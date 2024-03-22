@@ -62,6 +62,9 @@ Execute playbook
 ```
 ansible-playbook sat_register.yml -e@aap.yaml -e@vault_sat_vars.yaml --ask-vault-pass
 ansible-playbook rhn_register.yml -e@aap.yaml -e@vault_rhn_vars.yaml --ask-vault-pass
+
+ansible-navigator run get_ip_location.yml -i inventory -m stdout --eei localhost/ee-satreg --pp never
+
 ```
 
 
